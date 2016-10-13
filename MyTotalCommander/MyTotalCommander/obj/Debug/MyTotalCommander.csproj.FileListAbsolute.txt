@@ -1,0 +1,2 @@
+D:\Egor\GitRepository\stack\MyTotalCommander\MyTotalCommander\bin\Debug\MyTotalCommander.exe.config
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\bin\Debug\MyTotalCommander.exe.config
