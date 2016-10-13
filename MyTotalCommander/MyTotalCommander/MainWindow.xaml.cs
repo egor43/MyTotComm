@@ -21,6 +21,7 @@ namespace MyTotalCommander
     /// </summary>
     public partial class MainWindow : Window
     {
+        //TODO: Добавить между menuDiscBtn и DataGrid нечто, куда будет выводиться путь.
         public MainWindow()
         {
             InitializeComponent();
