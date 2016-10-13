@@ -1,2 +1,15 @@
 D:\Egor\GitRepository\stack\MyTotalCommander\MyTotalCommander\bin\Debug\MyTotalCommander.exe.config
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\bin\Debug\MyTotalCommander.exe.config
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\bin\Debug\MyTotalCommander.exe
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\bin\Debug\MyTotalCommander.pdb
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.csprojResolveAssemblyReference.cache
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MainWindow.g.cs
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\App.g.cs
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander_MarkupCompile.cache
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander_MarkupCompile.lref
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MainWindow.baml
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.g.resources
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.Properties.Resources.resources
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.csproj.GenerateResource.Cache
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.exe
+D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.pdb

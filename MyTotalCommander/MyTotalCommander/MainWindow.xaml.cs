@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace MyTotalCommander
 {
@@ -23,6 +24,18 @@ namespace MyTotalCommander
         public MainWindow()
         {
             InitializeComponent();
+
+            foreach (DriveInfo drv in DriveInfo.GetDrives())
+            {
+                MenuItem mnuitem = new MenuItem();
+                ComboBoxItem cbxitem = new ComboBoxItem();
+                mnuitem.Tag=cbxitem.Tag = drv;
+                mnuitem.Header=cbxitem.Content = drv.ToString();
+                if (ComboBox.Items.Count == 0) cbxitem.IsSelected = true;
+                menuDiscBtn.Items.Add(mnuitem);
+                ComboBox.Items.Add(cbxitem);
+                if(drv.IsReady==true)dataGrid.ItemsSource = drv.RootDirectory.GetDirectories();
+            }
         }
     }
 }

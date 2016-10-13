@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyTotalCommander"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="702.266" Width="1056.295">
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="611*"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="stackPanel" Grid.Row="0" Margin="5" MinWidth="60" >
+            <Menu HorizontalAlignment="Left" VerticalAlignment="Center" Background="{Binding Background, ElementName=grid}">
+                <MenuItem Name="menuitmCopy" Margin="5" Header="Копировать" FontSize="16"/>
+            </Menu>
+        </StackPanel>
+        <Separator Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200*" MinWidth="250"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="200*" MinWidth="250"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0">
+                <Menu Name="menuDiscBtn" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="2">
+                </Menu>
+                <DataGrid Name="dataGrid">
+                </DataGrid>
+            </StackPanel>
+            <GridSplitter Grid.Column="1" VerticalContentAlignment="Stretch" Width="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF8B8282" Foreground="#FFCDBCBC"/>
+            <StackPanel Orientation="Vertical" Grid.Column="2">
+                <ComboBox Name="ComboBox">
+                </ComboBox>
+                <TreeView Name="TreeVW">
+                </TreeView>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
