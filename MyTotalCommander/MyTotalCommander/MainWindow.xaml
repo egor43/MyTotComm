@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <StackPanel x:Name="stackPanel" Grid.Row="0" Margin="5" MinWidth="60" >
             <Menu HorizontalAlignment="Left" VerticalAlignment="Center" Background="{Binding Background, ElementName=grid}">
-                <MenuItem Name="menuitmCopy" Margin="5" Header="Копировать" FontSize="16"/>
+                <MenuItem Name="menuitmCopy" Margin="5" Header="Копировать" FontSize="16" Click="menuitmCopy_Click"/>
             </Menu>
         </StackPanel>
         <Separator Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
@@ -27,7 +27,9 @@
             <StackPanel Orientation="Vertical" Grid.Column="0">
                 <Menu Name="menuDiscBtn" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="2">
                 </Menu>
+                <TextBlock Name="tblkWay"/>
                 <DataGrid Name="dataGrid">
+                    
                 </DataGrid>
             </StackPanel>
             <GridSplitter Grid.Column="1" VerticalContentAlignment="Stretch" Width="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF8B8282" Foreground="#FFCDBCBC"/>

@@ -26,17 +26,38 @@ namespace MyTotalCommander
         {
             InitializeComponent();
 
+           
             foreach (DriveInfo drv in DriveInfo.GetDrives())
             {
                 MenuItem mnuitem = new MenuItem();
                 ComboBoxItem cbxitem = new ComboBoxItem();
                 mnuitem.Tag=cbxitem.Tag = drv;
+                mnuitem.Click += MenuItemClickHandler;
                 mnuitem.Header=cbxitem.Content = drv.ToString();
                 if (ComboBox.Items.Count == 0) cbxitem.IsSelected = true;
                 menuDiscBtn.Items.Add(mnuitem);
                 ComboBox.Items.Add(cbxitem);
-                if(drv.IsReady==true)dataGrid.ItemsSource = drv.RootDirectory.GetDirectories();
+                if (drv.IsReady == true) dataGrid.ItemsSource = drv.RootDirectory.GetDirectories() ;
             }
+
+        }
+
+        private void MenuItemClickHandler(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuitem = sender as MenuItem;
+            try
+            {
+                dataGrid.ItemsSource = (menuitem.Tag as DriveInfo).RootDirectory.GetDirectories();
+            }
+            catch (System.IO.IOException ex)
+            {
+                MessageBox.Show("Диск недоступен!");
+            }
+        }
+
+        private void menuitmCopy_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
