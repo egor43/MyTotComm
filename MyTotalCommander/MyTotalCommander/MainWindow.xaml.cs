@@ -21,23 +21,23 @@ namespace MyTotalCommander
     /// </summary>
     public partial class MainWindow : Window
     {
-        //TODO: Добавить между menuDiscBtn и DataGrid нечто, куда будет выводиться путь.
+        //TODO: 
         public MainWindow()
         {
             InitializeComponent();
 
-           
+
             foreach (DriveInfo drv in DriveInfo.GetDrives())
             {
                 MenuItem mnuitem = new MenuItem();
                 ComboBoxItem cbxitem = new ComboBoxItem();
-                mnuitem.Tag=cbxitem.Tag = drv;
+                mnuitem.Tag = cbxitem.Tag = drv;
                 mnuitem.Click += MenuItemClickHandler;
-                mnuitem.Header=cbxitem.Content = drv.ToString();
+                mnuitem.Header = cbxitem.Content = drv.ToString();
                 if (ComboBox.Items.Count == 0) cbxitem.IsSelected = true;
                 menuDiscBtn.Items.Add(mnuitem);
                 ComboBox.Items.Add(cbxitem);
-                if (drv.IsReady == true) dataGrid.ItemsSource = drv.RootDirectory.GetDirectories() ;
+                if (drv.IsReady == true) dataGrid.ItemsSource = drv.RootDirectory.GetDirectories();
             }
 
         }

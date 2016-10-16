@@ -28,8 +28,13 @@
                 <Menu Name="menuDiscBtn" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="2">
                 </Menu>
                 <TextBlock Name="tblkWay"/>
-                <DataGrid Name="dataGrid">
-                    
+                <DataGrid Name="dataGrid" AutoGenerateColumns="False" DataContext="{Binding ElementName=dataGrid, Path=Items, Mode=OneWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=Name, Mode=OneWay}" Header="Имя"/>
+                        <DataGridTextColumn Binding="{Binding Path=Attributes, Mode=OneWay}" Header="Тип"/>
+                        <DataGridTextColumn Binding="{x:Null}" Header="Размер"/>
+                    </DataGrid.Columns>
+
                 </DataGrid>
             </StackPanel>
             <GridSplitter Grid.Column="1" VerticalContentAlignment="Stretch" Width="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF8B8282" Foreground="#FFCDBCBC"/>
