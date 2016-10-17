@@ -10,8 +10,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="611*"/>
+            <RowDefinition Height="600*"/>
+            <RowDefinition Height="2"/>
         </Grid.RowDefinitions>
+        <Border x:Name="border" Grid.Row="2" Margin="0,50,0,0"/>
         <StackPanel x:Name="stackPanel" Grid.Row="0" Margin="5" MinWidth="60" >
             <Menu HorizontalAlignment="Left" VerticalAlignment="Center" Background="{Binding Background, ElementName=grid}">
                 <MenuItem Name="menuitmCopy" Margin="5" Header="Копировать" FontSize="16" Click="menuitmCopy_Click"/>
@@ -24,24 +26,23 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="200*" MinWidth="250"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" Grid.Column="0">
+            <StackPanel x:Name="stackPanel1" Orientation="Vertical" Grid.Column="0" Margin="2">
                 <Menu Name="menuDiscBtn" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="2">
                 </Menu>
                 <TextBlock Name="tblkWay"/>
-                <DataGrid Name="dataGrid" AutoGenerateColumns="False" DataContext="{Binding ElementName=dataGrid, Path=Items, Mode=OneWay}">
+                <DataGrid Name="dataGrid" AutoGenerateColumns="False" DataContext="{Binding ElementName=dataGrid, Path=Items}" SelectionChanged="dataGrid_SelectionChanged" BeginningEdit="dataGrid_BeginningEdit" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True" Grid.IsSharedSizeScope="True" HorizontalScrollBarVisibility="Visible" CanUserResizeRows="False" MinRowHeight="10" AreRowDetailsFrozen="True" Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Path=Name, Mode=OneWay}" Header="Имя"/>
-                        <DataGridTextColumn Binding="{Binding Path=Attributes, Mode=OneWay}" Header="Тип"/>
-                        <DataGridTextColumn Binding="{x:Null}" Header="Размер"/>
+                        <DataGridTextColumn Binding="{Binding Path=Name}" Header="Имя"/>
+                        <DataGridTextColumn Binding="{Binding Path=Type}" Header="Тип"/>
+                        <DataGridTextColumn Binding="{Binding Path=Size}" Header="Размер"/>
                     </DataGrid.Columns>
-
                 </DataGrid>
             </StackPanel>
             <GridSplitter Grid.Column="1" VerticalContentAlignment="Stretch" Width="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF8B8282" Foreground="#FFCDBCBC"/>
-            <StackPanel Orientation="Vertical" Grid.Column="2">
+            <StackPanel Orientation="Vertical" Grid.Column="2" Margin="2">
                 <ComboBox Name="ComboBox">
                 </ComboBox>
-                <TreeView Name="TreeVW">
+                <TreeView Name="TreeVW" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}">
                 </TreeView>
             </StackPanel>
         </Grid>
