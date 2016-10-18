@@ -30,7 +30,7 @@
                 <Menu Name="menuDiscBtn" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="2">
                 </Menu>
                 <TextBlock Name="tblkWay"/>
-                <DataGrid Name="dataGrid" AutoGenerateColumns="False" DataContext="{Binding ElementName=dataGrid, Path=Items}" SelectionChanged="dataGrid_SelectionChanged" BeginningEdit="dataGrid_BeginningEdit" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True" Grid.IsSharedSizeScope="True" HorizontalScrollBarVisibility="Visible" CanUserResizeRows="False" MinRowHeight="10" AreRowDetailsFrozen="True" Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}">
+                <DataGrid Name="dataGrid" AutoGenerateColumns="False" DataContext="{Binding ElementName=dataGrid, Path=Items}" SelectionChanged="dataGrid_SelectionChanged" BeginningEdit="dataGrid_BeginningEdit" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True" Grid.IsSharedSizeScope="True" HorizontalScrollBarVisibility="Visible" CanUserResizeRows="False" MinRowHeight="10" AreRowDetailsFrozen="True" Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}" GotFocus="dataGrid_GotFocus">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Path=Name}" Header="Имя"/>
                         <DataGridTextColumn Binding="{Binding Path=Type}" Header="Тип"/>
@@ -42,7 +42,7 @@
             <StackPanel Orientation="Vertical" Grid.Column="2" Margin="2">
                 <ComboBox Name="ComboBox">
                 </ComboBox>
-                <TreeView Name="TreeVW" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}">
+                <TreeView Name="TreeVW" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}" GotFocus="TreeVW_GotFocus">
                 </TreeView>
             </StackPanel>
         </Grid>

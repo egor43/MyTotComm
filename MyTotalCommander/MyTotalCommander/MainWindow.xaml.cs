@@ -88,6 +88,11 @@ namespace MyTotalCommander
     {
         //TODO: 
         public Stack<DirectoryInfo> olddirectory = new Stack<DirectoryInfo>();
+        public string WayTree;
+        public string WayGridNameElement;
+        public string WayTreeNameElement;
+        public string WayGrid;
+        public bool focus;
         public MainWindow()
         {
             InitializeComponent();
@@ -109,6 +114,8 @@ namespace MyTotalCommander
                     collItems.AddCollectionItems(drv.RootDirectory.GetDirectories());
                     collItems.AddCollectionItems(drv.RootDirectory.GetFiles());
                     dataGrid.ItemsSource = collItems.GetCollectionElements();
+                    WayGrid = (mnuitem.Tag as DriveInfo).RootDirectory.FullName;
+                    WayTree = (cbxitem.Tag as DriveInfo).RootDirectory.FullName;
                 }
             }
         }
@@ -118,6 +125,7 @@ namespace MyTotalCommander
             MenuItem menuitem = sender as MenuItem;
             try
             {
+                WayGrid = (menuitem.Tag as DriveInfo).RootDirectory.FullName;
                 CollectionItems collItems = new CollectionItems();
                 collItems.AddCollectionItems((menuitem.Tag as DriveInfo).RootDirectory.GetDirectories());
                 collItems.AddCollectionItems((menuitem.Tag as DriveInfo).RootDirectory.GetFiles());
@@ -135,6 +143,7 @@ namespace MyTotalCommander
             TreeVW.Items.Clear();
             try
             {
+                WayTree = (cbxitem.Tag as DriveInfo).RootDirectory.FullName;
                 CollectionItems collItems = new CollectionItems();
                 collItems.AddCollectionItems((cbxitem.Tag as DriveInfo).RootDirectory.GetDirectories());
                 collItems.AddCollectionItems((cbxitem.Tag as DriveInfo).RootDirectory.GetFiles());
@@ -161,12 +170,14 @@ namespace MyTotalCommander
         {
             CollectionItems collItems = new CollectionItems();
             TreeViewItem element = sender as TreeViewItem;
-            if ((element.Tag as FileInfo)!=null)
+            if ((element.Tag as FileInfo) != null)
             {
                 Process.Start((element.Tag as FileInfo).FullName);
             }
             else
             {
+                WayTree = (element.Tag as DirectoryInfo).FullName;
+                WayTreeNameElement = (element.Tag as DirectoryInfo).FullName;
                 collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetDirectories());
                 collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetFiles());
                 List<CollectionItems.Element> list = collItems.GetCollectionElements();
@@ -176,6 +187,7 @@ namespace MyTotalCommander
                 {
                     TreeViewItem item = new TreeViewItem();
                     item.Tag = v.Tag;
+                    item.Selected += SelectedItemHandler;
                     item.Expanded += ExpandedHandler;
                     item.Header = v.Name;
                     if (v.Type == FileAttributes.Directory) item.Items.Add("*");
@@ -185,8 +197,80 @@ namespace MyTotalCommander
             e.Handled = true;
         }
 
+        private void SelectedItemHandler(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem send = sender as TreeViewItem;
+            if (send.Tag is FileInfo)
+            {
+                WayTreeNameElement = send.Header.ToString();
+                e.Handled = true;
+            }
+            else
+            {
+                WayTreeNameElement = (send.Tag as DirectoryInfo).Name;
+                e.Handled = true;
+            }
+        }
+
         private void menuitmCopy_Click(object sender, RoutedEventArgs e)
         {
+            if (focus)
+            {
+                if (WayGridNameElement != null)
+                {
+                    string inPath = System.IO.Path.Combine(WayTree, WayGridNameElement);
+                    string outPath = System.IO.Path.Combine(WayGrid, WayGridNameElement);
+                    if (File.GetAttributes(outPath) == FileAttributes.Directory)
+                    {
+                        Directory.CreateDirectory(inPath);
+                        string[] filesname = Directory.GetFiles(outPath);
+                        foreach (var v in filesname)
+                        {
+                            string fileName = System.IO.Path.GetFileName(v);
+                            string destFile = System.IO.Path.Combine(inPath, fileName);
+                            System.IO.File.Copy(v, destFile, true);
+                        }
+                    }
+                    else
+                    {
+                        System.IO.File.Copy(outPath, inPath, true);
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Не выбран файл для копирования");
+                }
+
+            }
+            else
+            {
+                if (WayTreeNameElement != null)
+                {
+                    string outPath = System.IO.Path.Combine(WayTree, WayTreeNameElement);
+                    string inPath = System.IO.Path.Combine(WayGrid, WayTreeNameElement);
+                    if (File.GetAttributes(outPath) == FileAttributes.Directory)
+                    {
+                        Directory.CreateDirectory(inPath);
+                        string[] filesname = Directory.GetFiles(outPath);
+                        foreach (var v in filesname)
+                        {
+                            string fileName = System.IO.Path.GetFileName(v);
+                            string destFile = System.IO.Path.Combine(inPath, fileName);
+                            System.IO.File.Copy(v, destFile, true);
+                        }
+                    }
+                    else
+                    {
+                        System.IO.File.Copy(outPath, inPath, true);
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Не выбран файл для копирования");
+                }
+            }
 
         }
 
@@ -194,7 +278,21 @@ namespace MyTotalCommander
         {
             DataGrid datagrid = sender as DataGrid;
             CollectionItems.Element element = datagrid.SelectedItem as CollectionItems.Element;
-            if (element != null) tblkWay.Text = element.Way;
+            if (element != null)
+            {
+                if (element.Tag is FileInfo)
+                {
+                    WayGrid = (element.Tag as FileInfo).DirectoryName;
+                    WayGridNameElement = (element.Tag as FileInfo).Name;
+                }
+                else if (element.Tag != null)
+                {
+                    WayGrid = (element.Tag as DirectoryInfo).Parent.Name;
+                    WayGridNameElement = (element.Tag as DirectoryInfo).Name;
+                }
+                tblkWay.Text = element.Way;
+            }
+
         }
 
         private void dataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
@@ -202,10 +300,11 @@ namespace MyTotalCommander
             DataGrid datagrid = sender as DataGrid;
             CollectionItems.Element element = datagrid.SelectedItem as CollectionItems.Element;
             CollectionItems collItems = new CollectionItems();
-            if(element.Tag!=null)
+            if (element.Tag != null)
             {
-                if(element.Type==FileAttributes.Directory)
+                if (element.Type == FileAttributes.Directory)
                 {
+                    WayGrid = element.Way;
                     olddirectory.Push((element.Tag as DirectoryInfo).Parent);
                     collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetDirectories());
                     collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetFiles());
@@ -218,14 +317,25 @@ namespace MyTotalCommander
             }
             else
             {
-                if(olddirectory.Count>0)
+                if (olddirectory.Count > 0)
                 {
+                    WayGrid = olddirectory.Peek().FullName;
                     collItems.AddCollectionItems(olddirectory.Peek().GetDirectories());
                     collItems.AddCollectionItems(olddirectory.Pop().GetFiles());
                     dataGrid.ItemsSource = collItems.GetCollectionElements();
                 }
             }
             e.Cancel = true;
+        }
+
+        private void dataGrid_GotFocus(object sender, RoutedEventArgs e)
+        {
+            focus = true;
+        }
+
+        private void TreeVW_GotFocus(object sender, RoutedEventArgs e)
+        {
+            focus = false;
         }
     }
 }
