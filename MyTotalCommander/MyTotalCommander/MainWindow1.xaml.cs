@@ -15,14 +15,16 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 
-namespace Total
+namespace MyTotalCommander
 {
-    // Класс описывающий коллекцию
+    /// <summary>
+    /// Логика взаимодействия для MainWindow.xaml
+    /// </summary>
+    /// 
     public class CollectionItems
     {
         List<Element> listitems = new List<Element>();
 
-        //Класс описывающий элемент коллекции
         public class Element
         {
             public string Name { get; internal set; }
@@ -32,7 +34,6 @@ namespace Total
             public object Tag { get; internal set; }
         }
 
-        //Конструктор класса коллекции
         public CollectionItems()
         {
             Element el = new Element();
@@ -43,7 +44,6 @@ namespace Total
             listitems.Add(el);
         }
 
-        //Метод добавления элемента в коллекцию
         public void AddCollectionItems(DirectoryInfo[] driveinfo)
         {
             foreach (var v in driveinfo)
@@ -60,7 +60,6 @@ namespace Total
             }
         }
 
-        //Метод добавления элемента в коллекцию
         public void AddCollectionItems(FileInfo[] driveinfo)
         {
             foreach (var v in driveinfo)
@@ -78,30 +77,26 @@ namespace Total
             }
         }
 
-        //Метод возращающий колекцию
         public List<Element> GetCollectionElements()
         {
             return listitems;
         }
     }
 
-    //Класс описывающй взадействие с MainWindow.xaml
+
     public partial class MainWindow : Window
     {
-        //описание полей класса 
+        //TODO: 
         public Stack<DirectoryInfo> olddirectory = new Stack<DirectoryInfo>();
         public string WayTree;
         public string WayGridNameElement;
         public string WayTreeNameElement;
         public string WayGrid;
         public bool focus;
-
-        //Начальная инициализация пользовательского интерфейса
         public MainWindow()
         {
             InitializeComponent();
 
-            //Динамическое загрузка элементов(дисков, директорий, файлов)
             foreach (DriveInfo drv in DriveInfo.GetDrives())
             {
                 MenuItem mnuitem = new MenuItem();
@@ -125,7 +120,6 @@ namespace Total
             }
         }
 
-        //Обработчик события выбора диска относящихся к DataGrid
         private void MenuItemClickHandler(object sender, RoutedEventArgs e)
         {
             MenuItem menuitem = sender as MenuItem;
@@ -143,10 +137,8 @@ namespace Total
             }
         }
 
-        //Обработчик события выбора диска относящихся к TreeView
         private void ComboBoxItemSelectedkHandler(object sender, RoutedEventArgs e)
         {
-
             ComboBoxItem cbxitem = sender as ComboBoxItem;
             TreeVW.Items.Clear();
             try
@@ -162,7 +154,6 @@ namespace Total
                     TreeViewItem item = new TreeViewItem();
                     item.Tag = v.Tag;
                     item.Expanded += ExpandedHandler;
-                    item.GotFocus += ElementGotFocusHandler;
                     item.Header = v.Name;
                     if (v.Type == FileAttributes.Directory) item.Items.Add("*");
                     TreeVW.Items.Add(item);
@@ -175,30 +166,20 @@ namespace Total
             }
         }
 
-        //Обработка события раскрытия ветки TreeView
         private void ExpandedHandler(object sender, RoutedEventArgs e)
         {
             CollectionItems collItems = new CollectionItems();
             TreeViewItem element = sender as TreeViewItem;
             if ((element.Tag as FileInfo) != null)
             {
-                
                 Process.Start((element.Tag as FileInfo).FullName);
             }
             else
             {
                 WayTree = (element.Tag as DirectoryInfo).FullName;
                 WayTreeNameElement = (element.Tag as DirectoryInfo).FullName;
-                try
-                {
-                    collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetDirectories());
-                    collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetFiles());
-                }
-                catch
-                {
-                    MessageBox.Show("Не хватает прав доступа!");
-                }
-
+                collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetDirectories());
+                collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetFiles());
                 List<CollectionItems.Element> list = collItems.GetCollectionElements();
                 list.RemoveAt(0);
                 element.Items.Clear();
@@ -216,22 +197,8 @@ namespace Total
             e.Handled = true;
         }
 
-        private void ElementGotFocusHandler(object sender, RoutedEventArgs e)
-        {
-            TreeVW.Opacity = 1;
-            dataGrid.Opacity = 0.3;
-            TreeViewItem element = sender as TreeViewItem;
-            if (element.Tag is FileInfo)
-            {
-                WayTreeNameElement = element.Header.ToString(); 
-            }
-            e.Handled = true;
-        }
-
         private void SelectedItemHandler(object sender, RoutedEventArgs e)
         {
-            TreeVW.Opacity = 1;
-            dataGrid.Opacity = 0.3;
             TreeViewItem send = sender as TreeViewItem;
             if (send.Tag is FileInfo)
             {
@@ -255,15 +222,14 @@ namespace Total
                     string outPath = System.IO.Path.Combine(WayGrid, WayGridNameElement);
                     if (File.GetAttributes(outPath) == FileAttributes.Directory)
                     {
-                        try
+                        Directory.CreateDirectory(inPath);
+                        string[] filesname = Directory.GetFiles(outPath);
+                        foreach (var v in filesname)
                         {
-                            perebor(outPath, inPath);
+                            string fileName = System.IO.Path.GetFileName(v);
+                            string destFile = System.IO.Path.Combine(inPath, fileName);
+                            System.IO.File.Copy(v, destFile, true);
                         }
-                        catch
-                        {
-                            MessageBox.Show("Не хватает прав доступа!");
-                        }
-                        
                     }
                     else
                     {
@@ -285,27 +251,18 @@ namespace Total
                     string inPath = System.IO.Path.Combine(WayGrid, WayTreeNameElement);
                     if (File.GetAttributes(outPath) == FileAttributes.Directory)
                     {
-                        
-                        try
+                        Directory.CreateDirectory(inPath);
+                        string[] filesname = Directory.GetFiles(outPath);
+                        foreach (var v in filesname)
                         {
-                            perebor(outPath,inPath);
+                            string fileName = System.IO.Path.GetFileName(v);
+                            string destFile = System.IO.Path.Combine(inPath, fileName);
+                            System.IO.File.Copy(v, destFile, true);
                         }
-                        catch
-                        {
-                            MessageBox.Show("Не хватает прав доступа!");
-                        }
-                        
                     }
                     else
                     {
-                        try
-                        {
-                            System.IO.File.Copy(outPath, inPath, true);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Не хватает прав доступа!");
-                        }
+                        System.IO.File.Copy(outPath, inPath, true);
 
                     }
                 }
@@ -315,35 +272,6 @@ namespace Total
                 }
             }
 
-        }
-
-        //begin_dir - директория источник.
-        //end_dir - директория приёмник.
-        private void perebor(string begin_dir, string end_dir)
-        {
-            //Берём нашу исходную папку
-            DirectoryInfo dir_inf = new DirectoryInfo(begin_dir);
-            //Перебираем все внутренние папки
-            foreach (DirectoryInfo dir in dir_inf.GetDirectories())
-            {
-                //Проверяем - если директории не существует, то создаём;
-                if (Directory.Exists(end_dir + "\\" + dir.Name) != true)
-                {
-                    Directory.CreateDirectory(end_dir + "\\" + dir.Name);
-                }
-
-                //Рекурсия (перебираем вложенные папки и делаем для них то-же самое).
-                perebor(dir.FullName, end_dir + "\\" + dir.Name);
-            }
-
-            //Перебираем файлики в папке источнике.
-            foreach (string file in Directory.GetFiles(begin_dir))
-            {
-                //Определяем  имя файла с расширением - без пути (но с слешем "\").
-                string filik = file.Substring(file.LastIndexOf('\\'), file.Length - file.LastIndexOf('\\'));
-                //Копируем файл с перезаписью из источника в приёмник.
-                File.Copy(file, end_dir + "\\" + filik, true);
-            }
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -378,16 +306,8 @@ namespace Total
                 {
                     WayGrid = element.Way;
                     olddirectory.Push((element.Tag as DirectoryInfo).Parent);
-                    try
-                    {
-                        collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetDirectories());
-                        collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetFiles());
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Не хватает прав доступа!");
-                    }
-
+                    collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetDirectories());
+                    collItems.AddCollectionItems((element.Tag as DirectoryInfo).GetFiles());
                     dataGrid.ItemsSource = collItems.GetCollectionElements();
                 }
                 else
@@ -410,15 +330,11 @@ namespace Total
 
         private void dataGrid_GotFocus(object sender, RoutedEventArgs e)
         {
-            dataGrid.Opacity = 1;
-            TreeVW.Opacity = 0.3;
             focus = true;
         }
 
         private void TreeVW_GotFocus(object sender, RoutedEventArgs e)
         {
-            dataGrid.Opacity = 0.3;
-            TreeVW.Opacity = 1;
             focus = false;
         }
     }
