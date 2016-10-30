@@ -6,7 +6,6 @@ D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTo
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MainWindow.g.cs
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\App.g.cs
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander_MarkupCompile.cache
-D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander_MarkupCompile.lref
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MainWindow.baml
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.g.resources
 D:\Egor\GitRepository\MyTotComm\MyTotalCommander\MyTotalCommander\obj\Debug\MyTotalCommander.Properties.Resources.resources
